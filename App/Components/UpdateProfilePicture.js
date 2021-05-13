@@ -8,112 +8,82 @@ import {
     Image,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import {gql, useApolloClient, useMutation, useQuery} from '@apollo/client';
-import {ReactNativeFile} from 'apollo-upload-client';
-// import RNFetchBlob from 'rn-fetch-blob';
-
-import constants from '../../constants';
 
 const UpdateProfilePicture = props => {
-    const PROFILE_PICTURE_UPLOAD_MUTATION = gql`
-        mutation addProfilePicture($id: ID!, $file: Upload!) {
-            addProfilePicture(id: $id, file: $file) {
-                id
-                path
-                fileName
-                mimeType
-            }
-        }
-    `;
-    const [profilePictureUploadMutation, {loading, error, data}] = useMutation(
-        PROFILE_PICTURE_UPLOAD_MUTATION,
-    );
-
-    // const getReadStream = filePath => {
-    //     RNFetchBlob.fs
-    //         .readStream(filePath, 'base64', 4095)
-    //         .then(ifstream => {
-    //             ifstream.open();
-    //             ifstream.onData(chunk => {
-    //                 return chunk;
-    //             });
-    //             ifstream.onError(err => {
-    //                 console.log('oops', err);
-    //             });
-    //             ifstream.onEnd(() => {
-    //                 console.log('Completed');
-    //             });
-    //             return ifstream;
-    //         })
-    //         .catch(err => console.log(err));
-    // };
-
-    const HELLO_QUERY = gql`
-        query hello {
-            hello
-        }
-    `;
-    const {loading_hello, error_hello, data_hello} = useQuery(HELLO_QUERY);
-    console.log(loading_hello);
-    console.log(error_hello);
-    console.log(data_hello);
-
-    function generateRNFile(uri, name) {
-        return uri
-            ? new ReactNativeFile({
-                  uri,
-                  type: 'image',
-                  name,
-              })
-            : null;
-    }
-
-    // const apolloClient = useApolloClient();
-
-    const handleCameraPress = () => {};
+    const handleCameraPress = () => {
+        ImagePicker.openCamera({
+            width: 300,
+            height: 300,
+            cropping: true,
+        })
+            .then(async image => {
+                const arr = image.path.split('/');
+                const imageFile = {
+                    uri: image.path,
+                    type: image.mime,
+                    name: arr[arr.length - 1],
+                };
+                const data = new FormData();
+                data.append('name', 'image');
+                data.append('image', imageFile);
+                console.log(data);
+                let res = await fetch(
+                    'http://192.168.1.7:5000/uploadProfilePicture',
+                    {
+                        method: 'post',
+                        body: data,
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    },
+                );
+                let responseJson = await res.json();
+                console.log(responseJson);
+                if (responseJson.status === 1) {
+                    console.log('Upload Successful');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
     const handleGalleryPress = () => {
-        // ImagePicker.openPicker({
-        //     width: 300,
-        //     height: 300,
-        //     cropping: true,
-        // })
-        //     .then(image => {
-        //         console.log(image);
-        //         profilePictureUploadMutation({
-        //             variables: {
-        //                 id: constants.ID,
-        //                 file: getReadStream(image.path),
-        //             },
-        //         })
-        //             .then(() => {
-        //                 apolloClient.resetStore();
-        //             })
-        //             .catch(err => {
-        //                 console.log(err);
-        //             });
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
         ImagePicker.openPicker({
             width: 300,
             height: 300,
             cropping: true,
         })
-            .then(image => {
+            .then(async image => {
                 const arr = image.path.split('/');
-                const file = generateRNFile(image.path, arr[arr.length - 1]);
-                console.log(file);
-                try {
-                    profilePictureUploadMutation({
-                        variables: {id: constants.ID, file: file},
-                    });
-                } catch (err) {
-                    console.log(err);
+                const imageFile = {
+                    uri: image.path,
+                    type: image.mime,
+                    name: arr[arr.length - 1],
+                };
+                const data = new FormData();
+                data.append('name', 'image');
+                data.append('image', imageFile);
+                console.log(data);
+                let res = await fetch(
+                    'http://192.168.1.7:5000/uploadProfilePicture',
+                    {
+                        method: 'post',
+                        body: data,
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    },
+                );
+                let responseJson = await res.json();
+                console.log(responseJson);
+                if (responseJson.status === 1) {
+                    console.log('Upload Successful');
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+            });
     };
 
     const handleRemovePress = () => {};

@@ -4,9 +4,24 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import ProfilePicture from '../Components/ProfilePicture';
 import UpdateProfilePicture from '../Components/UpdateProfilePicture';
+import getProfilePicture from '../requests/getProfilePicture';
+import constants from '../../constants';
 
-const AddStoryScreen = props => {
+const AddStoryScreen = ({route}) => {
     const [isUpdatePicture, setIsUpdatePicture] = useState(false);
+
+    const handleProfilePicturePress = () => {
+        if (!route.params.isProfilePictureDownloaded) {
+            const result = getProfilePicture(
+                'http://192.168.1.7:5000/downloadProfilePicture/' +
+                    constants.ID,
+            );
+            if (result) {
+                route.params.setIsProfilePictureDownloaded(true);
+                route.params.setProfilePictureDetails(result);
+            }
+        }
+    };
 
     const handleProfilePictureLongPress = () => {
         setIsUpdatePicture(true);
@@ -16,8 +31,16 @@ const AddStoryScreen = props => {
         <View style={styles.container}>
             <TouchableOpacity
                 activeOpacity={0.8}
-                onLongPress={handleProfilePictureLongPress}>
-                <ProfilePicture dimensions={styles.profilePicture} />
+                onLongPress={handleProfilePictureLongPress}
+                onPress={handleProfilePicturePress}>
+                <ProfilePicture
+                    dimensions={styles.profilePicture}
+                    isProfilePictureDownloaded={
+                        route.params.isProfilePictureDownloaded
+                    }
+                    profilePictureDetails={route.params.profilePictureDetails}
+                    borderColor={'none'}
+                />
             </TouchableOpacity>
             <UpdateProfilePicture
                 isModalVisible={isUpdatePicture}
@@ -67,11 +90,6 @@ const styles = StyleSheet.create({
         margin: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: 'transparent',
-        // height: 50,
-        // width: 50,
-        // borderRadius: 25,
-        // backgroundColor: '#f5d442',
     },
     addStoryButtonText: {
         justifyContent: 'center',
