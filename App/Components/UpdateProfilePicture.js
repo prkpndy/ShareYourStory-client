@@ -8,6 +8,9 @@ import {
     Image,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import {ApolloClient, InMemoryCache} from '@apollo/client';
+
+import removeProfilePictureMutation from '../mutation/removeProfilePictureMutation';
 
 const UpdateProfilePicture = props => {
     const handleCameraPress = () => {
@@ -23,10 +26,13 @@ const UpdateProfilePicture = props => {
                     type: image.mime,
                     name: arr[arr.length - 1],
                 };
+
+                const imageExtension = image.mime.split('/')[1];
+
                 const data = new FormData();
-                data.append('name', 'image');
+                data.append('userId', props.userId);
+                data.append('imageExtension', imageExtension);
                 data.append('image', imageFile);
-                console.log(data);
                 let res = await fetch(
                     'http://192.168.1.7:5000/uploadProfilePicture',
                     {
@@ -41,6 +47,7 @@ const UpdateProfilePicture = props => {
                 console.log(responseJson);
                 if (responseJson.status === 1) {
                     console.log('Upload Successful');
+                    props.handleProfilePictureUpdated(imageExtension);
                 }
             })
             .catch(err => {
@@ -61,10 +68,13 @@ const UpdateProfilePicture = props => {
                     type: image.mime,
                     name: arr[arr.length - 1],
                 };
+
+                const imageExtension = image.mime.split('/')[1];
+
                 const data = new FormData();
-                data.append('name', 'image');
+                data.append('userId', props.userId);
+                data.append('imageExtension', imageExtension);
                 data.append('image', imageFile);
-                console.log(data);
                 let res = await fetch(
                     'http://192.168.1.7:5000/uploadProfilePicture',
                     {
@@ -79,6 +89,7 @@ const UpdateProfilePicture = props => {
                 console.log(responseJson);
                 if (responseJson.status === 1) {
                     console.log('Upload Successful');
+                    props.handleProfilePictureUpdated(imageExtension);
                 }
             })
             .catch(err => {
@@ -86,7 +97,22 @@ const UpdateProfilePicture = props => {
             });
     };
 
-    const handleRemovePress = () => {};
+    const handleRemovePress = () => {
+        const client = new ApolloClient({
+            uri: 'http://192.168.1.7:5000/graphql',
+            cache: new InMemoryCache(),
+        });
+
+        client
+            .mutate({
+                mutation: removeProfilePictureMutation,
+                variables: {id: props.userId},
+            })
+            .then(result => {
+                props.handleProfilePictureRemoved();
+            })
+            .catch(err => console.log(err));
+    };
 
     const handleCancelPress = () => {
         props.onCancel();

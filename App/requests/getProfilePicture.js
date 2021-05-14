@@ -2,7 +2,10 @@ import {PermissionsAndroid, Platform} from 'react-native';
 
 import RNFetchBlob from 'rn-fetch-blob';
 
-const checkPermission = async (REMOTE_IMAGE_PATH, userId) => {
+const checkPermission = async (
+    REMOTE_IMAGE_PATH,
+    handleProfilePictureDownloaded,
+) => {
     if (Platform.OS === 'ios') {
         downloadImage();
     } else {
@@ -17,7 +20,10 @@ const checkPermission = async (REMOTE_IMAGE_PATH, userId) => {
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 console.log('Storage Permission Granted.');
-                return downloadImage(REMOTE_IMAGE_PATH, userId);
+                downloadImage(
+                    REMOTE_IMAGE_PATH,
+                    handleProfilePictureDownloaded,
+                );
             } else {
                 console.log('Storage Permission Not Granted');
                 return null;
@@ -29,16 +35,12 @@ const checkPermission = async (REMOTE_IMAGE_PATH, userId) => {
     }
 };
 
-const downloadImage = (image_URL, userId) => {
+const downloadImage = async (image_URL, handleProfilePictureDownloaded) => {
     let date = new Date();
-    // let ext = getExtention(image_URL);
-    // ext = '.' + ext[0];
-
     const {config, fs} = RNFetchBlob;
     let PictureDir = fs.dirs.PictureDir;
     const imageName =
         'image_' + Math.floor(date.getTime() + date.getSeconds() / 2) + '.jpeg';
-    // const imageName = userId + '.jpeg';
     const imagePath = PictureDir + '/' + imageName;
     let options = {
         fileCache: true,
@@ -49,21 +51,42 @@ const downloadImage = (image_URL, userId) => {
             description: 'Image',
         },
     };
-    config(options)
-        .fetch('GET', image_URL)
-        .then(response => {
-            console.log('response -> ', JSON.stringify(response));
-            console.log('Image Downloaded Successfully.');
-            // ext = ext.split('.');
-            // ext = ext[ext.length - 1];
-            // const ext = response.headers.get('Content-Type').split('/')[1];
-            return {path: imagePath, name: imageName, type: 'image/jpeg'};
-        })
-        .catch(err => console.log(err));
-};
+    try {
+        const response = await config(options).fetch('GET', image_URL);
+        console.log('response -> ', JSON.stringify(response));
+        console.log('Image Downloaded Successfully.');
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                {
+                    title: 'Reading Storage Permission Required',
+                    message:
+                        'App needs access to your storage to read downloaded Photos',
+                    buttonNeutral: 'Ask Me Later',
+                    buttonNegative: 'Cancel',
+                    buttonPositive: 'OK',
+                },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('Reaading Storage Permission Granted.');
 
-// const getExtention = filename => {
-//     return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined;
-// };
+                const profilePictureDetails = {
+                    path: imagePath,
+                    name: imageName,
+                    type: 'image/jpeg',
+                };
+                handleProfilePictureDownloaded(profilePictureDetails);
+            } else {
+                console.log('Reading Storage Permission Not Granted');
+                return null;
+            }
+        } catch (err) {
+            console.warn(err);
+            return null;
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};
 
 export default checkPermission;

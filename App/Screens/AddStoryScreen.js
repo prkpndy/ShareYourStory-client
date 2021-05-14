@@ -1,76 +1,59 @@
 import React, {useState} from 'react';
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
+import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 import ProfilePicture from '../Components/ProfilePicture';
 import UpdateProfilePicture from '../Components/UpdateProfilePicture';
-import getProfilePicture from '../requests/getProfilePicture';
-import constants from '../../constants';
+import AddStory from '../Components/AddStory';
+import UserDetails from '../Components/UserDetails';
 
-const AddStoryScreen = ({route}) => {
+const AddStoryScreen = ({navigation, ...props}) => {
+    console.log(props);
     const [isUpdatePicture, setIsUpdatePicture] = useState(false);
-
-    const handleProfilePicturePress = () => {
-        if (!route.params.isProfilePictureDownloaded) {
-            const result = getProfilePicture(
-                'http://192.168.1.7:5000/downloadProfilePicture/' +
-                    constants.ID,
-            );
-            if (result) {
-                route.params.setIsProfilePictureDownloaded(true);
-                route.params.setProfilePictureDetails(result);
-            }
-        }
-    };
+    const [isAddStory, setIsAddStory] = useState(false);
 
     const handleProfilePictureLongPress = () => {
         setIsUpdatePicture(true);
+    };
+
+    const handleAddStoryPress = () => {
+        setIsAddStory(true);
     };
 
     return (
         <View style={styles.container}>
             <TouchableOpacity
                 activeOpacity={0.8}
-                onLongPress={handleProfilePictureLongPress}
-                onPress={handleProfilePicturePress}>
+                onLongPress={handleProfilePictureLongPress}>
                 <ProfilePicture
                     dimensions={styles.profilePicture}
                     isProfilePictureDownloaded={
-                        route.params.isProfilePictureDownloaded
+                        props.isProfilePictureDownloaded
                     }
-                    profilePictureDetails={route.params.profilePictureDetails}
+                    profilePictureDetails={props.profilePictureDetails}
                     borderColor={'none'}
                 />
             </TouchableOpacity>
             <UpdateProfilePicture
                 isModalVisible={isUpdatePicture}
                 onCancel={() => setIsUpdatePicture(false)}
+                userId={props.userDetails.id}
+                handleProfilePictureRemoved={props.handleProfilePictureRemoved}
+                handleProfilePictureUpdated={props.handleProfilePictureUpdated}
+            />
+            <AddStory
+                isModalVisible={isAddStory}
+                onCancel={() => setIsAddStory(false)}
+                userId={props.userDetails.id}
             />
             <TouchableOpacity
                 style={styles.addStoryButton}
-                onPress={() => {
-                    ImagePicker.openPicker({
-                        width: 300,
-                        height: 300,
-                        cropping: true,
-                    })
-                        .then(image => {
-                            console.log(image);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
-                }}>
+                onPress={handleAddStoryPress}>
                 <Image
                     style={styles.addStoryButtonImage}
                     source={require('../res/images/addStoryButton.png')}
                 />
             </TouchableOpacity>
-            <View style={styles.userInfo}>
-                <Text>Prakhar Pandey</Text>
-                <Text>Student</Text>
-                <Text>www.prakharpandey.com</Text>
-            </View>
+            <UserDetails userDetails={props.userDetails} />
         </View>
     );
 };
@@ -100,9 +83,6 @@ const styles = StyleSheet.create({
     addStoryButtonImage: {
         height: 40,
         width: 40,
-    },
-    userInfo: {
-        alignItems: 'center',
     },
 });
 
