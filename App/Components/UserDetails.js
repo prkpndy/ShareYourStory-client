@@ -1,15 +1,14 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
+const userDetailsField = ['name', 'occupation', 'email', 'website'];
+
 const UserDetails = props => {
     return (
         <View style={styles.userInfo}>
-            {Object.keys(props.userDetails).map((key, index) => {
-                const value = props.userDetails[key];
-                if (value) {
-                    return <Text key={key}>value</Text>;
-                } else {
-                    return null;
+            {userDetailsField.map(value => {
+                if (props.userDetails[value]) {
+                    return <Text key={value}>{props.userDetails[value]}</Text>;
                 }
             })}
         </View>

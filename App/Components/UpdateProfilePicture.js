@@ -48,6 +48,7 @@ const UpdateProfilePicture = props => {
                 if (responseJson.status === 1) {
                     console.log('Upload Successful');
                     props.handleProfilePictureUpdated(imageExtension);
+                    props.onCancel();
                 }
             })
             .catch(err => {
@@ -90,6 +91,7 @@ const UpdateProfilePicture = props => {
                 if (responseJson.status === 1) {
                     console.log('Upload Successful');
                     props.handleProfilePictureUpdated(imageExtension);
+                    props.onCancel();
                 }
             })
             .catch(err => {
@@ -110,6 +112,7 @@ const UpdateProfilePicture = props => {
             })
             .then(result => {
                 props.handleProfilePictureRemoved();
+                props.onCancel();
             })
             .catch(err => console.log(err));
     };

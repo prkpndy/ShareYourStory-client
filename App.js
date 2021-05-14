@@ -29,6 +29,8 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
+export const DetailsContext = React.createContext();
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -53,6 +55,9 @@ class App extends React.Component {
             this,
         );
         this.handleProfilePictureRemoved = this.handleProfilePictureRemoved.bind(
+            this,
+        );
+        this.handleProfilePictureUpdated = this.handleProfilePictureUpdated.bind(
             this,
         );
     }
@@ -118,50 +123,51 @@ class App extends React.Component {
         }
         return (
             <NavigationContainer>
-                <ScreenStack.Navigator initialRouteName="screen1">
-                    <ScreenStack.Screen
-                        name="screen1"
-                        component={AddStoryScreen}
-                        initialParams={{
-                            isProfilePictureDownloaded: this.state
-                                .isProfilePictureDownloaded,
-                            profilePictureDetails: this.state
-                                .profilePictureDetails,
-                            userDetails: this.state.userDetails,
-                            handleProfilePictureRemoved: this
-                                .handleProfilePictureRemoved,
-                            handleProfilePictureUpdated: this
-                                .handleProfilePictureUpdated,
-                        }}
-                        options={{title: 'Home'}}
-                    />
-                    <ScreenStack.Screen
-                        name="screen2"
-                        component={ViewStoryScreen}
-                        initialParams={{
-                            isProfilePictureDownloaded: this.state
-                                .isProfilePictureDownloaded,
-                            profilePictureDetails: this.state
-                                .profilePictureDetails,
-                            userDetails: this.state.userDetails,
-                        }}
-                    />
-                    <ScreenStack.Screen
-                        name="screen3"
-                        component={StoryScreen}
-                    />
-                    <ScreenStack.Screen
-                        name="screen4"
-                        component={EndScreen}
-                        initialParams={{
-                            isProfilePictureDownloaded: this.state
-                                .isProfilePictureDownloaded,
-                            profilePictureDetails: this.state
-                                .profilePictureDetails,
-                            userDetails: this.state.userDetails,
-                        }}
-                    />
-                </ScreenStack.Navigator>
+                <DetailsContext.Provider
+                    value={{
+                        isProfilePictureDownloaded: this.state
+                            .isProfilePictureDownloaded,
+                        profilePictureDetails: this.state.profilePictureDetails,
+                        userDetails: this.state.userDetails,
+                        handleProfilePictureRemoved: this
+                            .handleProfilePictureRemoved,
+                        handleProfilePictureUpdated: this
+                            .handleProfilePictureUpdated,
+                    }}>
+                    <ScreenStack.Navigator initialRouteName="screen1">
+                        <ScreenStack.Screen
+                            name="screen1"
+                            component={AddStoryScreen}
+                            options={{title: 'Home'}}
+                        />
+                        <ScreenStack.Screen
+                            name="screen2"
+                            component={ViewStoryScreen}
+                            initialParams={{
+                                isProfilePictureDownloaded: this.state
+                                    .isProfilePictureDownloaded,
+                                profilePictureDetails: this.state
+                                    .profilePictureDetails,
+                                userDetails: this.state.userDetails,
+                            }}
+                        />
+                        <ScreenStack.Screen
+                            name="screen3"
+                            component={StoryScreen}
+                        />
+                        <ScreenStack.Screen
+                            name="screen4"
+                            component={EndScreen}
+                            initialParams={{
+                                isProfilePictureDownloaded: this.state
+                                    .isProfilePictureDownloaded,
+                                profilePictureDetails: this.state
+                                    .profilePictureDetails,
+                                userDetails: this.state.userDetails,
+                            }}
+                        />
+                    </ScreenStack.Navigator>
+                </DetailsContext.Provider>
             </NavigationContainer>
         );
     }

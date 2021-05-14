@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 import ProfilePicture from '../Components/ProfilePicture';
 import UpdateProfilePicture from '../Components/UpdateProfilePicture';
 import AddStory from '../Components/AddStory';
 import UserDetails from '../Components/UserDetails';
+import {DetailsContext} from '../../App';
 
-const AddStoryScreen = ({navigation, ...props}) => {
-    console.log(props);
+const AddStoryScreen = ({navigation}) => {
+    const props = useContext(DetailsContext);
     const [isUpdatePicture, setIsUpdatePicture] = useState(false);
     const [isAddStory, setIsAddStory] = useState(false);
 
