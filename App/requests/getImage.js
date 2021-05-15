@@ -62,7 +62,7 @@ const downloadImage = async (image_URL, handleDownloaded) => {
                 },
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log('Reaading Storage Permission Granted.');
+                console.log('Reading Storage Permission Granted.');
 
                 const profilePictureDetails = {
                     path: imagePath,

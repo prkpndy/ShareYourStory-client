@@ -58,15 +58,6 @@ const ProgressBar = props => {
 export default ProgressBar;
 
 const styles = StyleSheet.create({
-    // container: {
-    //     flex: 1,
-    //     flexDirection: 'column',
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     paddingTop: 20,
-    //     backgroundColor: '#68c3f7',
-    //     padding: 8,
-    // },
     progressBar: {
         flexDirection: 'row',
         height: 8,

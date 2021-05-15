@@ -5,6 +5,7 @@ import ProgressBar from '../Components/ProgressBar';
 import getStoryImage from '../requests/getImage';
 import {DetailsContext} from '../../App';
 import getStoryCaptionQuery from '../queries/getStoryCaptionQuery';
+import constants from '../../constants';
 
 const StoryScreen = ({navigation}) => {
     const props = useContext(DetailsContext);
@@ -13,12 +14,19 @@ const StoryScreen = ({navigation}) => {
     const [isStoryCaptionDownloaded, setIsStoryCaptionDownloaded] = useState(
         false,
     );
+    const [isStoryImageDownloading, setIsStoryImageDownloading] = useState(
+        false,
+    );
+    const [isStoryCaptionDownloading, setIsStoryCaptionDownloading] = useState(
+        false,
+    );
     const [storyImageDetails, setStoryImageDetails] = useState({});
     const [storyCaption, setStoryCaption] = useState('');
 
     const handleStoryImageDownloaded = imageDetails => {
         setStoryImageDetails(imageDetails);
         setIsStoryImageDownloaded(true);
+        setIsStoryImageDownloading(false);
     };
 
     const sendRequestForStoryCaption = () => {
@@ -30,19 +38,21 @@ const StoryScreen = ({navigation}) => {
             .then(result => {
                 console.log(result.data.getStoryCaption);
                 setIsStoryCaptionDownloaded(true);
+                setIsStoryCaptionDownloading(false);
                 setStoryCaption(result.data.getStoryCaption);
             })
             .catch(err => console.log(err));
     };
 
-    if (!isStoryImageDownloaded) {
+    if (!isStoryImageDownloaded && !isStoryImageDownloading) {
+        setIsStoryImageDownloading(true);
         getStoryImage(
-            'http://192.168.1.7:5000/downloadStoryImage/' +
-                props.userDetails.id,
+            constants.url + '/downloadStoryImage/' + props.userDetails.id,
             handleStoryImageDownloaded,
         );
     }
-    if (!isStoryCaptionDownloaded) {
+    if (!isStoryCaptionDownloaded && !isStoryCaptionDownloading) {
+        setIsStoryCaptionDownloading(true);
         sendRequestForStoryCaption();
     }
 
@@ -70,7 +80,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         alignItems: 'center',
-        backgroundColor: '#68c3f7',
+        backgroundColor: constants.accentColor,
         padding: 10,
     },
     imageContainer: {

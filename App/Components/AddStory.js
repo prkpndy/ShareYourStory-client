@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
     Text,
     TextInput,
@@ -10,9 +10,13 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import {DetailsContext} from '../../App';
 import addStoryCaptionMutation from '../mutation/addStoryCaptionMutation';
+import constants from '../../constants';
 
 const UpdateProfilePicture = props => {
+    const contextData = useContext(DetailsContext);
+
     const [storyImageDetails, setStoryImageDetails] = useState(null);
     const [storyImageExtension, setStoryImageExtension] = useState('');
     const [storyCaption, setStoryCaption] = useState('');
@@ -28,7 +32,7 @@ const UpdateProfilePicture = props => {
         data.append('imageExtension', storyImageExtension);
         data.append('image', storyImageDetails);
 
-        let res = await fetch('http://192.168.1.7:5000/uploadStoryImage', {
+        let res = await fetch(constants.url + '/uploadStoryImage', {
             method: 'post',
             body: data,
             headers: {
@@ -39,7 +43,7 @@ const UpdateProfilePicture = props => {
         console.log(responseJson);
 
         try {
-            await props.apolloClient.mutate({
+            await contextData.apolloClient.mutate({
                 mutation: addStoryCaptionMutation,
                 variables: {id: props.userId, caption: storyCaption},
             });
@@ -213,7 +217,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         height: 50,
         fontSize: 20,
-        borderBottomColor: '#68c3f7',
+        borderBottomColor: constants.primaryColor,
         borderBottomWidth: 1,
         marginVertical: 10,
     },

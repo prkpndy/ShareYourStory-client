@@ -1,12 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 
 import ProfilePicture from '../Components/ProfilePicture';
 import UserDetails from '../Components/UserDetails';
-import {DetailsContext} from '../../App';
+import constants from '../../constants';
 
 const ViewStoryScreen = ({navigation}) => {
-    const props = useContext(DetailsContext);
     const handleProfilePicturePress = () => {
         navigation.navigate('screen3');
     };
@@ -19,15 +18,11 @@ const ViewStoryScreen = ({navigation}) => {
                     onPress={handleProfilePicturePress}>
                     <ProfilePicture
                         dimensions={styles.profilePicture}
-                        isProfilePictureDownloaded={
-                            props.isProfilePictureDownloaded
-                        }
-                        profilePictureDetails={props.profilePictureDetails}
                         borderColor={'bright'}
                     />
                 </TouchableOpacity>
             </View>
-            <UserDetails userDetails={props.userDetails} />
+            <UserDetails />
         </View>
     );
 };
@@ -38,14 +33,14 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#d5e9f5',
+        backgroundColor: constants.accentColor,
     },
     profilePictureContainer: {
         marginBottom: 50,
     },
     profilePicture: {
-        height: 128,
-        width: 128,
+        height: 200,
+        width: 200,
     },
 });
 

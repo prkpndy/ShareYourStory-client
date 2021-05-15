@@ -92,7 +92,7 @@ class App extends React.Component {
 
     sendRequestForProfilePicture() {
         getProfilePicture(
-            'http://192.168.1.7:5000/downloadProfilePicture/' + constants.ID,
+            constants.url + '/downloadProfilePicture/' + constants.ID,
             this.handleProfilePictureDownloaded,
         );
     }
@@ -142,9 +142,9 @@ class App extends React.Component {
                             options={{
                                 title: 'Home',
                                 headerStyle: {
-                                    backgroundColor: '#68c3f7',
+                                    backgroundColor: constants.primaryColor,
                                 },
-                                headerTintColor: '#fff',
+                                headerTintColor: constants.headerTintColor,
                                 headerTitleStyle: {
                                     fontWeight: 'bold',
                                 },
@@ -153,19 +153,12 @@ class App extends React.Component {
                         <ScreenStack.Screen
                             name="screen2"
                             component={ViewStoryScreen}
-                            initialParams={{
-                                isProfilePictureDownloaded: this.state
-                                    .isProfilePictureDownloaded,
-                                profilePictureDetails: this.state
-                                    .profilePictureDetails,
-                                userDetails: this.state.userDetails,
-                            }}
                             options={{
                                 title: 'View Story',
                                 headerStyle: {
-                                    backgroundColor: '#68c3f7',
+                                    backgroundColor: constants.primaryColor,
                                 },
-                                headerTintColor: '#fff',
+                                headerTintColor: constants.headerTintColor,
                                 headerTitleStyle: {
                                     fontWeight: 'bold',
                                 },
@@ -179,19 +172,12 @@ class App extends React.Component {
                         <ScreenStack.Screen
                             name="screen4"
                             component={EndScreen}
-                            initialParams={{
-                                isProfilePictureDownloaded: this.state
-                                    .isProfilePictureDownloaded,
-                                profilePictureDetails: this.state
-                                    .profilePictureDetails,
-                                userDetails: this.state.userDetails,
-                            }}
                             options={{
                                 title: 'Cheers!',
                                 headerStyle: {
-                                    backgroundColor: '#68c3f7',
+                                    backgroundColor: constants.primaryColor,
                                 },
-                                headerTintColor: '#fff',
+                                headerTintColor: constants.headerTintColor,
                                 headerTitleStyle: {
                                     fontWeight: 'bold',
                                 },

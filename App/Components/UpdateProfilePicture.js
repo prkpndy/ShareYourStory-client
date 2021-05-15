@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
     Text,
     View,
@@ -9,47 +9,50 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import {DetailsContext} from '../../App';
 import removeProfilePictureMutation from '../mutation/removeProfilePictureMutation';
+import constants from '../../constants';
 
 const UpdateProfilePicture = props => {
+    const contextData = useContext(DetailsContext);
+
+    const sendProfilePicture = async image => {
+        const arr = image.path.split('/');
+        const imageFile = {
+            uri: image.path,
+            type: image.mime,
+            name: arr[arr.length - 1],
+        };
+
+        const imageExtension = image.mime.split('/')[1];
+
+        const data = new FormData();
+        data.append('userId', props.userId);
+        data.append('imageExtension', imageExtension);
+        data.append('image', imageFile);
+        let res = await fetch(constants.url + '/uploadProfilePicture', {
+            method: 'post',
+            body: data,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        let responseJson = await res.json();
+        console.log(responseJson);
+        if (responseJson.status === 1) {
+            console.log('Upload Successful');
+            contextData.handleProfilePictureUpdated(imageExtension);
+            props.onCancel();
+        }
+    };
+
     const handleCameraPress = () => {
         ImagePicker.openCamera({
             width: 300,
             height: 300,
             cropping: true,
         })
-            .then(async image => {
-                const arr = image.path.split('/');
-                const imageFile = {
-                    uri: image.path,
-                    type: image.mime,
-                    name: arr[arr.length - 1],
-                };
-
-                const imageExtension = image.mime.split('/')[1];
-
-                const data = new FormData();
-                data.append('userId', props.userId);
-                data.append('imageExtension', imageExtension);
-                data.append('image', imageFile);
-                let res = await fetch(
-                    'http://192.168.1.7:5000/uploadProfilePicture',
-                    {
-                        method: 'post',
-                        body: data,
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    },
-                );
-                let responseJson = await res.json();
-                console.log(responseJson);
-                if (responseJson.status === 1) {
-                    console.log('Upload Successful');
-                    props.handleProfilePictureUpdated(imageExtension);
-                    props.onCancel();
-                }
-            })
+            .then(sendProfilePicture)
             .catch(err => {
                 console.log(err);
             });
@@ -61,56 +64,20 @@ const UpdateProfilePicture = props => {
             height: 300,
             cropping: true,
         })
-            .then(async image => {
-                const arr = image.path.split('/');
-                const imageFile = {
-                    uri: image.path,
-                    type: image.mime,
-                    name: arr[arr.length - 1],
-                };
-
-                const imageExtension = image.mime.split('/')[1];
-
-                const data = new FormData();
-                data.append('userId', props.userId);
-                data.append('imageExtension', imageExtension);
-                data.append('image', imageFile);
-                let res = await fetch(
-                    'http://192.168.1.7:5000/uploadProfilePicture',
-                    {
-                        method: 'post',
-                        body: data,
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    },
-                );
-                let responseJson = await res.json();
-                console.log(responseJson);
-                if (responseJson.status === 1) {
-                    console.log('Upload Successful');
-                    props.handleProfilePictureUpdated(imageExtension);
-                    props.onCancel();
-                }
-            })
+            .then(sendProfilePicture)
             .catch(err => {
                 console.log(err);
             });
     };
 
     const handleRemovePress = () => {
-        // const client = new ApolloClient({
-        //     uri: 'http://192.168.1.7:5000/graphql',
-        //     cache: new InMemoryCache(),
-        // });
-
-        props.apolloClient
+        contextData.apolloClient
             .mutate({
                 mutation: removeProfilePictureMutation,
                 variables: {id: props.userId},
             })
             .then(result => {
-                props.handleProfilePictureRemoved();
+                contextData.handleProfilePictureRemoved();
                 props.onCancel();
             })
             .catch(err => console.log(err));

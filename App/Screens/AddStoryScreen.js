@@ -6,9 +6,11 @@ import UpdateProfilePicture from '../Components/UpdateProfilePicture';
 import AddStory from '../Components/AddStory';
 import UserDetails from '../Components/UserDetails';
 import {DetailsContext} from '../../App';
+import constants from '../../constants';
 
 const AddStoryScreen = ({navigation}) => {
     const props = useContext(DetailsContext);
+
     const [isUpdatePicture, setIsUpdatePicture] = useState(false);
     const [isAddStory, setIsAddStory] = useState(false);
 
@@ -28,13 +30,10 @@ const AddStoryScreen = ({navigation}) => {
         <View style={styles.container}>
             <TouchableOpacity
                 activeOpacity={0.8}
-                onLongPress={handleProfilePictureLongPress}>
+                onLongPress={handleProfilePictureLongPress}
+                onPress={() => navigation.navigate('screen2')}>
                 <ProfilePicture
                     dimensions={styles.profilePicture}
-                    isProfilePictureDownloaded={
-                        props.isProfilePictureDownloaded
-                    }
-                    profilePictureDetails={props.profilePictureDetails}
                     borderColor={'none'}
                 />
             </TouchableOpacity>
@@ -42,16 +41,12 @@ const AddStoryScreen = ({navigation}) => {
                 isModalVisible={isUpdatePicture}
                 onCancel={() => setIsUpdatePicture(false)}
                 userId={props.userDetails.id}
-                handleProfilePictureRemoved={props.handleProfilePictureRemoved}
-                handleProfilePictureUpdated={props.handleProfilePictureUpdated}
-                apolloClient={props.apolloClient}
             />
             <AddStory
                 isModalVisible={isAddStory}
                 onCancel={() => setIsAddStory(false)}
                 userId={props.userDetails.id}
                 handleStoryAdded={handleStoryAdded}
-                apolloClient={props.apolloClient}
             />
             <TouchableOpacity
                 style={styles.addStoryButton}
@@ -61,7 +56,7 @@ const AddStoryScreen = ({navigation}) => {
                     source={require('../res/images/addStoryButton.png')}
                 />
             </TouchableOpacity>
-            <UserDetails userDetails={props.userDetails} />
+            <UserDetails />
         </View>
     );
 };
@@ -72,11 +67,11 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#d5e9f5',
+        backgroundColor: constants.accentColor,
     },
     profilePicture: {
-        height: 128,
-        width: 128,
+        height: 200,
+        width: 200,
     },
     addStoryButton: {
         margin: 20,

@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image, StyleSheet} from 'react-native';
 
+import {DetailsContext} from '../../App';
+import constants from '../../constants';
+
 const ProfilePicture = props => {
-    if (props.isProfilePictureDownloaded) {
+    const contextData = useContext(DetailsContext);
+
+    if (contextData.isProfilePictureDownloaded) {
         return (
             <Image
                 source={{
-                    uri: `file://${props.profilePictureDetails.path}`,
+                    uri: `file://${contextData.profilePictureDetails.path}`,
                     ...props.dimensions,
                 }}
                 style={
@@ -35,12 +40,12 @@ const ProfilePicture = props => {
 
 const styles = StyleSheet.create({
     bright: {
-        borderColor: '#fcf400',
+        borderColor: constants.profilePictureBorderColorBright,
         borderWidth: 4,
         padding: 5,
     },
     dark: {
-        borderColor: '#7a7878',
+        borderColor: constants.profilePictureBorderColorDark,
         borderWidth: 4,
         padding: 5,
     },
