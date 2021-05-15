@@ -20,6 +20,10 @@ const AddStoryScreen = ({navigation}) => {
         setIsAddStory(true);
     };
 
+    const handleStoryAdded = () => {
+        navigation.navigate('screen2');
+    };
+
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -40,11 +44,14 @@ const AddStoryScreen = ({navigation}) => {
                 userId={props.userDetails.id}
                 handleProfilePictureRemoved={props.handleProfilePictureRemoved}
                 handleProfilePictureUpdated={props.handleProfilePictureUpdated}
+                apolloClient={props.apolloClient}
             />
             <AddStory
                 isModalVisible={isAddStory}
                 onCancel={() => setIsAddStory(false)}
                 userId={props.userDetails.id}
+                handleStoryAdded={handleStoryAdded}
+                apolloClient={props.apolloClient}
             />
             <TouchableOpacity
                 style={styles.addStoryButton}
@@ -65,6 +72,7 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#d5e9f5',
     },
     profilePicture: {
         height: 128,

@@ -2,10 +2,7 @@ import {PermissionsAndroid, Platform} from 'react-native';
 
 import RNFetchBlob from 'rn-fetch-blob';
 
-const checkPermission = async (
-    REMOTE_IMAGE_PATH,
-    handleProfilePictureDownloaded,
-) => {
+const checkPermission = async (REMOTE_IMAGE_PATH, handleDownloaded) => {
     if (Platform.OS === 'ios') {
         downloadImage();
     } else {
@@ -20,10 +17,7 @@ const checkPermission = async (
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 console.log('Storage Permission Granted.');
-                downloadImage(
-                    REMOTE_IMAGE_PATH,
-                    handleProfilePictureDownloaded,
-                );
+                downloadImage(REMOTE_IMAGE_PATH, handleDownloaded);
             } else {
                 console.log('Storage Permission Not Granted');
                 return null;
@@ -35,7 +29,7 @@ const checkPermission = async (
     }
 };
 
-const downloadImage = async (image_URL, handleProfilePictureDownloaded) => {
+const downloadImage = async (image_URL, handleDownloaded) => {
     let date = new Date();
     const {config, fs} = RNFetchBlob;
     let PictureDir = fs.dirs.PictureDir;
@@ -75,7 +69,7 @@ const downloadImage = async (image_URL, handleProfilePictureDownloaded) => {
                     name: imageName,
                     type: 'image/jpeg',
                 };
-                handleProfilePictureDownloaded(profilePictureDetails);
+                handleDownloaded(profilePictureDetails);
             } else {
                 console.log('Reading Storage Permission Not Granted');
                 return null;

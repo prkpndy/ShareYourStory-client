@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import addStoryCaptionMutation from '../mutation/addStoryCaptionMutation';
+
 const UpdateProfilePicture = props => {
     const [storyImageDetails, setStoryImageDetails] = useState(null);
     const [storyImageExtension, setStoryImageExtension] = useState('');
@@ -22,10 +24,11 @@ const UpdateProfilePicture = props => {
     const handleSubmitPress = async () => {
         const data = new FormData();
         data.append('userId', props.userId);
-        data.append('caption', storyCaption);
+        // data.append('caption', storyCaption);
         data.append('imageExtension', storyImageExtension);
         data.append('image', storyImageDetails);
-        let res = await fetch('http://192.168.1.7:5000/uploadStory', {
+
+        let res = await fetch('http://192.168.1.7:5000/uploadStoryImage', {
             method: 'post',
             body: data,
             headers: {
@@ -34,15 +37,27 @@ const UpdateProfilePicture = props => {
         });
         let responseJson = await res.json();
         console.log(responseJson);
+
+        try {
+            await props.apolloClient.mutate({
+                mutation: addStoryCaptionMutation,
+                variables: {id: props.userId, caption: storyCaption},
+            });
+        } catch (err) {
+            console.log(err);
+        }
+
         if (responseJson.status === 1) {
             console.log('Upload Successful');
+            props.onCancel();
+            props.handleStoryAdded();
         }
     };
 
     const handleCameraPress = () => {
         ImagePicker.openCamera({
-            width: 300,
-            height: 300,
+            width: 600,
+            height: 600,
             cropping: true,
         })
             .then(image => {
@@ -65,8 +80,8 @@ const UpdateProfilePicture = props => {
 
     const handleGalleryPress = () => {
         ImagePicker.openPicker({
-            width: 300,
-            height: 300,
+            width: 600,
+            height: 600,
             cropping: true,
         })
             .then(image => {
@@ -198,7 +213,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         height: 50,
         fontSize: 20,
-        borderBottomColor: 'magenta',
+        borderBottomColor: '#68c3f7',
         borderBottomWidth: 1,
         marginVertical: 10,
     },

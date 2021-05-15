@@ -13,12 +13,12 @@ import {ApolloClient, InMemoryCache} from '@apollo/client';
 
 import AddStoryScreen from './App/Screens/AddStoryScreen'; // Screen 1
 import ViewStoryScreen from './App/Screens/ViewStoryScreen'; // Screen 2
-import StoryScreen from './App/Screens/ViewStoryScreen'; // Screen 3
+import StoryScreen from './App/Screens/StoryScreen'; // Screen 3
 import EndScreen from './App/Screens/EndScreen'; // Screen 4
 
 import getUserDetailsQuery from './App/queries/getUserDetailsQuery';
 
-import getProfilePicture from './App/requests/getProfilePicture';
+import getProfilePicture from './App/requests/getImage';
 
 import constants from './constants';
 
@@ -133,12 +133,22 @@ class App extends React.Component {
                             .handleProfilePictureRemoved,
                         handleProfilePictureUpdated: this
                             .handleProfilePictureUpdated,
+                        apolloClient: client,
                     }}>
                     <ScreenStack.Navigator initialRouteName="screen1">
                         <ScreenStack.Screen
                             name="screen1"
                             component={AddStoryScreen}
-                            options={{title: 'Home'}}
+                            options={{
+                                title: 'Home',
+                                headerStyle: {
+                                    backgroundColor: '#68c3f7',
+                                },
+                                headerTintColor: '#fff',
+                                headerTitleStyle: {
+                                    fontWeight: 'bold',
+                                },
+                            }}
                         />
                         <ScreenStack.Screen
                             name="screen2"
@@ -150,10 +160,21 @@ class App extends React.Component {
                                     .profilePictureDetails,
                                 userDetails: this.state.userDetails,
                             }}
+                            options={{
+                                title: 'View Story',
+                                headerStyle: {
+                                    backgroundColor: '#68c3f7',
+                                },
+                                headerTintColor: '#fff',
+                                headerTitleStyle: {
+                                    fontWeight: 'bold',
+                                },
+                            }}
                         />
                         <ScreenStack.Screen
                             name="screen3"
                             component={StoryScreen}
+                            options={{headerShown: false}}
                         />
                         <ScreenStack.Screen
                             name="screen4"
@@ -164,6 +185,16 @@ class App extends React.Component {
                                 profilePictureDetails: this.state
                                     .profilePictureDetails,
                                 userDetails: this.state.userDetails,
+                            }}
+                            options={{
+                                title: 'Cheers!',
+                                headerStyle: {
+                                    backgroundColor: '#68c3f7',
+                                },
+                                headerTintColor: '#fff',
+                                headerTitleStyle: {
+                                    fontWeight: 'bold',
+                                },
                             }}
                         />
                     </ScreenStack.Navigator>

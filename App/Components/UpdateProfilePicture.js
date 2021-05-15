@@ -8,7 +8,6 @@ import {
     Image,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import {ApolloClient, InMemoryCache} from '@apollo/client';
 
 import removeProfilePictureMutation from '../mutation/removeProfilePictureMutation';
 
@@ -100,12 +99,12 @@ const UpdateProfilePicture = props => {
     };
 
     const handleRemovePress = () => {
-        const client = new ApolloClient({
-            uri: 'http://192.168.1.7:5000/graphql',
-            cache: new InMemoryCache(),
-        });
+        // const client = new ApolloClient({
+        //     uri: 'http://192.168.1.7:5000/graphql',
+        //     cache: new InMemoryCache(),
+        // });
 
-        client
+        props.apolloClient
             .mutate({
                 mutation: removeProfilePictureMutation,
                 variables: {id: props.userId},
