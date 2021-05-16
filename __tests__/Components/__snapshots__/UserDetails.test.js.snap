@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+    }
+  }
+>
+  <Text>
+    John Doe
+  </Text>
+  <Text>
+    Front End Developer
+  </Text>
+  <Text>
+    johndoe@gmail.com
+  </Text>
+  <Text>
+    www.jest.js.io
+  </Text>
+</View>
+`;

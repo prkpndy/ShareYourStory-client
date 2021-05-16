@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1621189055693" clover="3.2.0">
+  <project timestamp="1621189055693" name="All files">
+    <metrics statements="35" coveredstatements="25" conditionals="16" coveredconditionals="3" methods="11" coveredmethods="5" elements="62" coveredelements="33" complexity="0" loc="35" ncloc="35" packages="4" files="6" classes="6"/>
+    <package name="ShareYourStory">
+      <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="constants.js" path="/home/prkpndy/Newzera/Projects/project3-sample-react-native-app/ShareYourStory/constants.js">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="ShareYourStory.App">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="DetailsContext.js" path="/home/prkpndy/Newzera/Projects/project3-sample-react-native-app/ShareYourStory/App/DetailsContext.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="ShareYourStory.App.Components">
+      <metrics statements="33" coveredstatements="23" conditionals="16" coveredconditionals="3" methods="11" coveredmethods="5"/>
+      <file name="ProfilePicture.js" path="/home/prkpndy/Newzera/Projects/project3-sample-react-native-app/ShareYourStory/App/Components/ProfilePicture.js">
+        <metrics statements="6" coveredstatements="5" conditionals="10" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+      </file>
+      <file name="ProgressBar.js" path="/home/prkpndy/Newzera/Projects/project3-sample-react-native-app/ShareYourStory/App/Components/ProgressBar.js">
+        <metrics statements="20" coveredstatements="11" conditionals="4" coveredconditionals="0" methods="8" coveredmethods="2"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+      </file>
+      <file name="UserDetails.js" path="/home/prkpndy/Newzera/Projects/project3-sample-react-native-app/ShareYourStory/App/Components/UserDetails.js">
+        <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="ShareYourStory.App.res.images">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="noProfilePicture.png" path="/home/prkpndy/Newzera/Projects/project3-sample-react-native-app/ShareYourStory/App/res/images/noProfilePicture.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

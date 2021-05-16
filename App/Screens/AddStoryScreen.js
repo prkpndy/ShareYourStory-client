@@ -5,7 +5,7 @@ import ProfilePicture from '../Components/ProfilePicture';
 import UpdateProfilePicture from '../Components/UpdateProfilePicture';
 import AddStory from '../Components/AddStory';
 import UserDetails from '../Components/UserDetails';
-import {DetailsContext} from '../../App';
+import DetailsContext from '../DetailsContext';
 import constants from '../../constants';
 
 const AddStoryScreen = ({navigation}) => {

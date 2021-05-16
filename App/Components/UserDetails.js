@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-import {DetailsContext} from '../../App';
+import DetailsContext from '../DetailsContext';
 
 const userDetailsField = ['name', 'occupation', 'email', 'website'];
 

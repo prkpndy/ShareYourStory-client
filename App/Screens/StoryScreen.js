@@ -3,7 +3,7 @@ import {Image, View, Text, StyleSheet} from 'react-native';
 
 import ProgressBar from '../Components/ProgressBar';
 import getStoryImage from '../requests/getImage';
-import {DetailsContext} from '../../App';
+import DetailsContext from '../DetailsContext';
 import getStoryCaptionQuery from '../queries/getStoryCaptionQuery';
 import constants from '../../constants';
 

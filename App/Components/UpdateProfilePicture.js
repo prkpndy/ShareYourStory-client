@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import {DetailsContext} from '../../App';
+import DetailsContext from '../DetailsContext';
 import removeProfilePictureMutation from '../mutation/removeProfilePictureMutation';
 import constants from '../../constants';
 

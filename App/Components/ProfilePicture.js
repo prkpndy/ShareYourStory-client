@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Image, StyleSheet} from 'react-native';
 
-import {DetailsContext} from '../../App';
+import DetailsContext from '../DetailsContext';
 import constants from '../../constants';
 
 const ProfilePicture = props => {

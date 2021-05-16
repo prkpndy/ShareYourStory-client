@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import {DetailsContext} from '../../App';
+import DetailsContext from '../DetailsContext';
 import addStoryCaptionMutation from '../mutation/addStoryCaptionMutation';
 import constants from '../../constants';
 
@@ -28,7 +28,6 @@ const UpdateProfilePicture = props => {
     const handleSubmitPress = async () => {
         const data = new FormData();
         data.append('userId', props.userId);
-        // data.append('caption', storyCaption);
         data.append('imageExtension', storyImageExtension);
         data.append('image', storyImageDetails);
 

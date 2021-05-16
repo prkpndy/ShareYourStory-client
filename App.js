@@ -21,6 +21,7 @@ import getUserDetailsQuery from './App/queries/getUserDetailsQuery';
 import getProfilePicture from './App/requests/getImage';
 
 import constants from './constants';
+import DetailsContext from './App/DetailsContext';
 
 const ScreenStack = createStackNavigator();
 
@@ -29,7 +30,7 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-export const DetailsContext = React.createContext();
+// export const DetailsContext = React.createContext();
 
 class App extends React.Component {
     constructor(props) {

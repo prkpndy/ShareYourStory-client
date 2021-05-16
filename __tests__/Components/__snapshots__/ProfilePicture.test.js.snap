@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Image
+  source={
+    Object {
+      "testUri": "../../../App/res/images/noProfilePicture.png",
+    }
+  }
+  style={
+    Object {
+      "borderColor": "#fcf400",
+      "borderWidth": 4,
+      "height": 200,
+      "padding": 5,
+      "width": 200,
+    }
+  }
+/>
+`;

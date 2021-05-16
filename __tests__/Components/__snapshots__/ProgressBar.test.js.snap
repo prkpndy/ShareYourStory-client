@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "transparent",
+      "borderColor": "#000",
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "height": 8,
+      "width": "98%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "black",
+        "width": "0%",
+      }
+    }
+  />
+</View>
+`;
